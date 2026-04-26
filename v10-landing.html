@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V10 — AI Systems for Modern Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:         #090909;
+    --surface:       #111110;
+    --border:        #272725;
+    --border-mid:    #333331;
+    --border-light:  #444442;
+    --white:         #f4f1ea;
+    --white-dim:     #dedad2;
+    --body:          #c2bfb8;
+    --muted:         #969390;
+    --dim:           #706e6b;
+    --accent:        #7b9eff;
+    --accent-soft:   #aabfff;
+    --accent-glow:   rgba(123,158,255,0.06);
+    --accent-border: rgba(123,158,255,0.22);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; background: #090909; }
+
+  body {
+    background: #090909;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 96px 96px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(9,9,9,0.94);
+    backdrop-filter: blur(16px);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 48px;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo em { color: var(--accent-soft); font-style: italic; }
+
+  .nav-links {
+    display: flex; gap: 36px;
+    list-style: none; align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--body);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-apply {
+    color: var(--black) !important;
+    background: var(--accent) !important;
+    padding: 8px 20px;
+    letter-spacing: 0.1em !important;
+    font-weight: 400 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-apply:hover { background: var(--accent-soft) !important; }
+
+  /* ─── SHARED ─── */
+  section { position: relative; z-index: 1; }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    color: var(--body);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 56px;
+    text-transform: uppercase;
+  }
+
+  .label::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 15%; right: -10%;
+    width: 900px; height: 700px;
+    background: radial-gradient(ellipse, rgba(123,158,255,0.035) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-inner { animation: fadeUp 1s ease both; }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .eyebrow-line {
+    width: 32px; height: 1px;
+    background: var(--border-light);
+    position: relative; overflow: hidden;
+  }
+
+  .eyebrow-line::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: translateX(-100%);
+    animation: scan 2.6s ease-in-out infinite;
+  }
+
+  @keyframes scan {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(220%); }
+  }
+
+  .hero-headline {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.91;
+    letter-spacing: -0.025em;
+    margin-bottom: 44px;
+    color: var(--white);
+  }
+
+  .hero-headline em { font-style: italic; color: var(--accent-soft); }
+
+  .hero-sub {
+    font-size: 19px;
+    color: var(--white-dim);
+    line-height: 1.65;
+    max-width: 600px;
+    font-weight: 400;
+    margin-bottom: 18px;
+  }
+
+  .hero-credibility {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--body);
+    margin-bottom: 52px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .hero-credibility::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--border-light);
+    flex-shrink: 0;
+  }
+
+  .btn-apply {
+    background: var(--accent);
+    color: var(--black);
+    padding: 16px 36px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+    font-weight: 400;
+  }
+
+  .btn-apply:hover { background: var(--accent-soft); transform: translateY(-1px); }
+
+  .btn-subtext {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-top: 14px;
+    display: block;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px; left: 48px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+
+  .scroll-hint::before {
+    content: ''; width: 20px; height: 1px;
+    background: var(--border-mid);
+  }
+
+  /* ─── TICKER ─── */
+  .ticker {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative; z-index: 1;
+  }
+
+  .ticker-track {
+    display: flex;
+    animation: ticker 36s linear infinite;
+    width: max-content;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--body);
+    padding: 0 52px;
+    display: inline-flex;
+    align-items: center;
+    gap: 52px;
+  }
+
+  .ticker-item::after { content: '·'; color: var(--accent); font-size: 18px; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─── PROBLEM ─── */
+  .problem {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .problem-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .problem-left h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 52px;
+  }
+
+  .problem-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .bullet {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: var(--white-dim);
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s;
+  }
+
+  .bullet.visible { opacity: 1; transform: none; }
+  .bullet:hover { color: var(--white); }
+
+  .bullet-dot {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--accent);
+    flex-shrink: 0;
+    font-style: normal;
+  }
+
+  .problem-right { padding-top: 60px; }
+
+  .problem-verdict {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--white-dim);
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  .problem-verdict em { font-style: italic; color: var(--white); }
+
+  .problem-support {
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.85;
+    font-weight: 400;
+  }
+
+  /* ─── SHIFT ─── */
+  .shift {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .shift-header { margin-bottom: 72px; }
+
+  .shift-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(44px, 5.5vw, 76px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--white);
+    max-width: 700px;
+  }
+
+  .shift-header h2 em { font-style: italic; color: var(--accent-soft); }
+
+  .shift-contrast {
+    display: grid;
+    grid-template-columns: 1fr 56px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .shift-col { padding: 44px 0; border-top: 1px solid var(--border); }
+
+  .shift-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+
+  .shift-col.tools .shift-col-label { color: var(--dim); }
+  .shift-col.systems .shift-col-label { color: var(--accent); }
+
+  .shift-items { display: flex; flex-direction: column; gap: 18px; }
+
+  .shift-item {
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.55;
+    font-weight: 400;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .shift-col.tools .shift-item { color: var(--muted); }
+  .shift-col.systems .shift-item { color: var(--white-dim); }
+
+  .shift-item::before {
+    content: '—';
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    flex-shrink: 0;
+    color: var(--border-light);
+  }
+
+  .shift-col.systems .shift-item::before { color: var(--accent); content: '→'; }
+
+  .shift-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 44px;
+  }
+
+  .shift-vs {
+    font-family: 'Instrument Serif', serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--border-light);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+  }
+
+  .shift-conclusion {
+    margin-top: 64px;
+    padding-top: 44px;
+    border-top: 1px solid var(--border);
+    max-width: 680px;
+  }
+
+  .shift-conclusion p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--white-dim);
+    font-weight: 400;
+  }
+
+  .shift-conclusion em { font-style: italic; color: var(--white); }
+
+  /* ─── SIGNATURE ─── */
+  .signature {
+    padding: 160px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signature-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(123,158,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .signature blockquote {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--white);
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .signature blockquote em { color: var(--accent-soft); }
+
+  /* ─── CASE STUDIES (tabbed) ─── */
+  .case-studies {
+    padding: 120px 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .case-studies-header {
+    margin-bottom: 64px;
+  }
+
+  .case-client {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-transform: uppercase;
+  }
+
+  .case-client::after {
+    content: ''; width: 32px; height: 1px;
+    background: var(--accent-border);
+  }
+
+  .case-studies-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 4vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  /* Tab bar */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-bottom: 2px;
+    background: #090909;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 18px 32px;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tab-btn:last-child { border-right: none; }
+
+  .tab-btn-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .tab-btn-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--body);
+    transition: color 0.2s;
+    line-height: 1.2;
+  }
+
+  .tab-btn.active {
+    background: var(--accent-glow);
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .tab-btn.active .tab-btn-label { color: var(--accent); }
+  .tab-btn.active .tab-btn-title { color: var(--white); }
+  .tab-btn:not(.active):hover { background: rgba(255,255,255,0.02); }
+  .tab-btn:not(.active):hover .tab-btn-title { color: var(--white-dim); }
+
+  /* Tab panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Case card */
+  .case-card {
+    border: 1px solid var(--border);
+    background: #090909;
+  }
+
+  .case-card-header {
+    padding: 36px 44px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .case-card-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .case-card-sub {
+    font-size: 16px;
+    color: var(--body);
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  .case-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  .case-col {
+    padding: 44px;
+    border-right: 1px solid var(--border);
+  }
+
+  .case-col:last-child { border-right: none; }
+
+  .case-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--body);
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+
+  .case-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .case-item {
+    font-size: 15px;
+    color: var(--body);
+    line-height: 1.55;
+    font-weight: 400;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .case-item::before {
+    content: '—';
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .case-col.outcomes .case-item {
+    color: var(--white-dim);
+  }
+
+  .case-col.outcomes .case-item::before { display: none; }
+
+  .case-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 52px;
+    font-style: italic;
+    color: var(--accent-soft);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .case-num-label {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  .case-card-footer {
+    padding: 28px 44px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .case-card-footer::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--accent-border);
+    flex-shrink: 0;
+  }
+
+  /* ─── PRODUCT ─── */
+  .product {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .product-header {
+    margin-bottom: 80px;
+    max-width: 680px;
+  }
+
+  .product-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 5vw, 66px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 18px;
+  }
+
+  .product-header h2 em { font-style: italic; color: var(--accent-soft); }
+
+  .product-header p {
+    font-size: 17px;
+    color: var(--body);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .product-steps {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+  }
+
+  .prod-step {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    padding: 52px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .prod-step::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0; right: 0;
+    background: var(--accent-glow);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  .prod-step:hover::before { opacity: 1; }
+
+  .prod-step-left { position: relative; z-index: 1; }
+
+  .prod-step-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .prod-step-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.1;
+  }
+
+  .prod-step-right {
+    position: relative; z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .prod-step-body {
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.8;
+    font-weight: 400;
+    max-width: 580px;
+  }
+
+  .prod-step-outcome {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent-soft);
+  }
+
+  .prod-step-outcome::before { content: '→'; }
+
+  .product-footer {
+    margin-top: 64px;
+    padding: 52px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .product-footer-left p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    color: var(--white-dim);
+  }
+
+  .product-footer-left p em { font-style: italic; color: var(--white); }
+
+  .product-footer-right p {
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.85;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .product-footer-closing {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent-soft);
+  }
+
+  /* ─── DIFFERENTIATION ─── */
+  .differentiation {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .diff-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .diff-left h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 4.5vw, 58px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .diff-left h2 em { font-style: italic; color: var(--accent-soft); }
+
+  .diff-left p {
+    font-size: 17px;
+    color: var(--body);
+    line-height: 1.8;
+    font-weight: 400;
+    margin-bottom: 14px;
+  }
+
+  .diff-right { border-left: 1px solid var(--border); padding-left: 60px; padding-top: 8px; }
+
+  .diff-detail {
+    font-size: 15px;
+    color: var(--body);
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+
+  .diff-detail::before {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ─── FINAL CTA ─── */
+  .final-cta {
+    padding: 180px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta-watermark {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Instrument Serif', serif;
+    font-size: 500px; line-height: 1;
+    color: rgba(255,255,255,0.012);
+    pointer-events: none; user-select: none;
+    font-style: italic;
+  }
+
+  .final-cta-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(123,158,255,0.04) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .final-cta-content { position: relative; z-index: 1; }
+
+  .final-cta h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 7.5vw, 100px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 48px;
+  }
+
+  .final-cta h2 em { font-style: italic; color: var(--accent-soft); }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--body);
+    margin-top: 36px;
+  }
+
+  .status-dot {
+    width: 5px; height: 5px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: blink 2.5s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+    position: relative; z-index: 1;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    color: var(--white-dim);
+    font-style: italic;
+  }
+
+  .footer-tag, .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+
+    /* Nav */
+    .nav-inner { padding: 0 24px; }
+    .nav-links li:not(:last-child) { display: none; }
+    .nav-links { gap: 0; }
+
+    /* Hero */
+    .hero { padding-bottom: 72px; min-height: 100svh; }
+    .hero-headline { font-size: clamp(56px, 14vw, 88px); margin-bottom: 32px; }
+    .hero-sub { font-size: 17px; max-width: 100%; }
+    .hero-eyebrow { font-size: 11px; margin-bottom: 36px; }
+    .hero-credibility { font-size: 11px; }
+    .btn-apply { padding: 14px 28px; font-size: 11px; width: 100%; text-align: center; display: block; }
+    .btn-subtext { font-size: 11px; text-align: center; }
+
+    /* Problem / Opportunity */
+    .problem { padding: 88px 0; }
+    .problem-inner { grid-template-columns: 1fr; gap: 52px; }
+    .problem-left h2 { font-size: clamp(28px, 7vw, 40px); }
+    .bullet { font-size: 20px; padding: 18px 0; }
+    .problem-right { padding-top: 0; }
+    .problem-verdict { font-size: clamp(20px, 5vw, 26px); }
+    .problem-support { font-size: 15px; }
+
+    /* Shift */
+    .shift { padding: 88px 0; }
+    .shift-header h2 { font-size: clamp(36px, 9vw, 56px); }
+    .shift-contrast { grid-template-columns: 1fr; gap: 0; }
+    .shift-divider { display: none; }
+    .shift-col { padding: 32px 0; }
+    .shift-col.systems { border-top: 1px solid var(--border); }
+    .shift-item { font-size: 15px; }
+    .shift-conclusion p { font-size: 18px; }
+
+    /* Signature */
+    .signature { padding: 100px 0; }
+    .signature blockquote { font-size: clamp(30px, 8vw, 48px); }
+
+    /* Case studies */
+    .case-studies { padding: 88px 0; }
+    .case-studies-title { font-size: clamp(28px, 7vw, 40px); }
+    .tab-btn { padding: 16px 20px; }
+    .tab-btn-title { font-size: 17px; }
+    .case-card-header { flex-direction: column; gap: 8px; padding: 28px 24px 24px; }
+    .case-card-name { font-size: 22px; }
+    .case-cols { grid-template-columns: 1fr; }
+    .case-col { padding: 28px 24px; border-right: none; border-bottom: 1px solid var(--border); }
+    .case-col:last-child { border-bottom: none; }
+    .case-num { font-size: 44px; }
+    .case-card-footer { padding: 24px; font-size: 15px; }
+
+    /* Product */
+    .product { padding: 88px 0; }
+    .product-header h2 { font-size: clamp(36px, 9vw, 52px); }
+    .product-header p { font-size: 16px; }
+    .prod-step { grid-template-columns: 1fr; gap: 20px; padding: 36px 0; }
+    .prod-step-title { font-size: 26px; }
+    .prod-step-body { font-size: 15px; }
+    .product-footer { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
+    .product-footer-left p { font-size: 20px; }
+    .product-footer-right p { font-size: 15px; }
+
+    /* Diff */
+    .differentiation { padding: 88px 0; }
+    .diff-inner { grid-template-columns: 1fr; gap: 52px; }
+    .diff-left h2 { font-size: clamp(30px, 8vw, 46px); }
+    .diff-left p { font-size: 16px; }
+    .diff-right { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 40px; }
+    .diff-detail { font-size: 14px; padding: 16px 0; }
+
+    /* Final CTA */
+    .final-cta { padding: 120px 0; }
+    .final-cta h2 { font-size: clamp(40px, 11vw, 72px); margin-bottom: 36px; }
+    .final-cta-watermark { font-size: 260px; }
+    .final-cta .btn-apply { width: auto; display: inline-block; }
+
+    /* Footer */
+    .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+
+    /* Label */
+    .label { font-size: 10px; margin-bottom: 40px; }
+
+    /* Section padding reductions */
+    .shift-conclusion { margin-top: 40px; padding-top: 36px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">V<em>10</em></a>
+    <ul class="nav-links">
+      <li><a href="#problem">The opportunity</a></li>
+      <li><a href="#case-studies">Case studies</a></li>
+      <li><a href="#product">Process</a></li>
+      <li><a href="#final-cta" class="nav-apply">Apply for V10</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- FOLD 1 — HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        An AI lab for real-world execution
+      </div>
+      <h1 class="hero-headline">
+        Build with<br><em>V10.</em>
+      </h1>
+      <p class="hero-sub">
+        We replace 50% of your operational workload and software costs with AI systems, deployed in 30 days.
+      </p>
+      <p class="hero-credibility">
+        Built by operators. Proven in real businesses like The Ice Bath Club.
+      </p>
+      <div>
+        <a href="#final-cta" class="btn-apply">Apply for V10 →</a>
+        <span class="btn-subtext">Selective partnerships for growth-minded companies.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">AI systems, not software</span>
+    <span class="ticker-item">30-day deployment</span>
+    <span class="ticker-item">50% less operational workload</span>
+    <span class="ticker-item">Systems you own</span>
+    <span class="ticker-item">Built by operators</span>
+    <span class="ticker-item">Real-world execution</span>
+    <span class="ticker-item">From V1 to V10</span>
+    <span class="ticker-item">AI systems, not software</span>
+    <span class="ticker-item">30-day deployment</span>
+    <span class="ticker-item">50% less operational workload</span>
+    <span class="ticker-item">Systems you own</span>
+    <span class="ticker-item">Built by operators</span>
+    <span class="ticker-item">Real-world execution</span>
+    <span class="ticker-item">From V1 to V10</span>
+  </div>
+</div>
+
+<!-- FOLD 2 — OPPORTUNITY -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="label reveal">The opportunity</div>
+    <div class="problem-inner">
+      <div class="problem-left">
+        <h2 class="reveal">Most businesses have more capacity than they're using.</h2>
+        <div class="problem-bullets">
+          <div class="bullet"><span class="bullet-dot">◆</span>Too many tools</div>
+          <div class="bullet"><span class="bullet-dot">◆</span>Too much manual work</div>
+          <div class="bullet"><span class="bullet-dot">◆</span>Disconnected systems</div>
+          <div class="bullet"><span class="bullet-dot">◆</span>Slow decisions</div>
+        </div>
+      </div>
+      <div class="problem-right">
+        <div class="problem-verdict reveal">
+          This isn't a technology gap.<br>
+          <em>It's an operations opportunity.</em>
+        </div>
+        <p class="problem-support reveal">
+          The businesses that move fastest aren't the ones with the most software — they're the ones with the best systems. That gap between where you are and where you could be is exactly where V10 works.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLD 3 — CATEGORY SHIFT -->
+<section class="shift" id="shift">
+  <div class="container">
+    <div class="label reveal">The shift</div>
+    <div class="shift-header">
+      <h2 class="reveal">From <em>tools</em> to systems.</h2>
+    </div>
+    <div class="shift-contrast reveal">
+      <div class="shift-col tools">
+        <div class="shift-col-label">How most companies operate</div>
+        <div class="shift-items">
+          <div class="shift-item">More software for every problem</div>
+          <div class="shift-item">People filling the gaps between tools</div>
+          <div class="shift-item">Manual processes held together by habit</div>
+          <div class="shift-item">Decisions that wait on the right person</div>
+          <div class="shift-item">Scaling by adding headcount</div>
+        </div>
+      </div>
+      <div class="shift-divider">
+        <span class="shift-vs">vs</span>
+      </div>
+      <div class="shift-col systems">
+        <div class="shift-col-label">How V10 companies operate</div>
+        <div class="shift-items">
+          <div class="shift-item">Custom systems built for your operations</div>
+          <div class="shift-item">Automated workflows, end to end</div>
+          <div class="shift-item">Intelligence that runs in the background</div>
+          <div class="shift-item">Real-time data, instant decisions</div>
+          <div class="shift-item">Scaling without proportional cost</div>
+        </div>
+      </div>
+    </div>
+    <div class="shift-conclusion reveal">
+      <p>
+        Most companies add more software and people to grow.
+        The best companies build <em>systems that do the work.</em>
+        That's the V10 difference.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOLD 4 — SIGNATURE -->
+<section class="signature">
+  <div class="signature-glow"></div>
+  <div class="container">
+    <blockquote class="reveal">
+      You redesign what<br>should exist —<br><em>then build it.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- FOLDS 5 & 6 — CASE STUDIES (tabbed) -->
+<section class="case-studies" id="case-studies">
+  <div class="container">
+    <div class="case-studies-header reveal">
+      <div class="case-client">Case Studies — The Ice Bath Club</div>
+      <h2 class="case-studies-title">Systems deployed in the real world.</h2>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar reveal">
+      <button class="tab-btn active" data-tab="reporting" onclick="switchTab('reporting')">
+        <span class="tab-btn-label">System 01</span>
+        <span class="tab-btn-title">Reporting System</span>
+      </button>
+      <button class="tab-btn" data-tab="people" onclick="switchTab('people')">
+        <span class="tab-btn-label">System 02</span>
+        <span class="tab-btn-title">People System</span>
+      </button>
+    </div>
+
+    <!-- REPORTING -->
+    <div class="tab-panel active" id="tab-reporting">
+      <div class="case-card reveal">
+        <div class="case-card-header">
+          <div class="case-card-name">V10 Reporting System</div>
+          <div class="case-card-sub">From manual reporting → real-time decision systems</div>
+        </div>
+        <div class="case-cols">
+          <div class="case-col">
+            <div class="case-col-label">Before</div>
+            <div class="case-items">
+              <div class="case-item">Slow, manual reporting cycles</div>
+              <div class="case-item">Fragmented data across tools</div>
+              <div class="case-item">Inaccurate numbers, decisions delayed</div>
+              <div class="case-item">Hours spent compiling, not deciding</div>
+            </div>
+          </div>
+          <div class="case-col">
+            <div class="case-col-label">What we built</div>
+            <div class="case-items">
+              <div class="case-item">Autonomous reporting infrastructure</div>
+              <div class="case-item">Real-time data consolidation</div>
+              <div class="case-item">Decision-focused dashboards</div>
+              <div class="case-item">AI-driven insights on demand</div>
+            </div>
+          </div>
+          <div class="case-col outcomes">
+            <div class="case-col-label">Outcomes</div>
+            <div class="case-items">
+              <div>
+                <div class="case-num">90%</div>
+                <div class="case-num-label">less time spent on reporting</div>
+              </div>
+              <div>
+                <div class="case-num">5×</div>
+                <div class="case-num-label">faster decisions</div>
+              </div>
+              <div>
+                <div class="case-num">70%</div>
+                <div class="case-num-label">fewer management meetings</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="case-card-footer">
+          This is what happens when reporting becomes a system.
+        </div>
+      </div>
+    </div>
+
+    <!-- PEOPLE -->
+    <div class="tab-panel" id="tab-people">
+      <div class="case-card reveal">
+        <div class="case-card-header">
+          <div class="case-card-name">V10 People System</div>
+          <div class="case-card-sub">From manual HR → a system that runs how the company operates</div>
+        </div>
+        <div class="case-cols">
+          <div class="case-col">
+            <div class="case-col-label">What we built</div>
+            <div class="case-items">
+              <div class="case-item">AI-powered hiring and candidate screening</div>
+              <div class="case-item">Automated performance reviews</div>
+              <div class="case-item">Promotion and pay frameworks</div>
+              <div class="case-item">Integrated workforce management</div>
+            </div>
+          </div>
+          <div class="case-col">
+            <div class="case-col-label">How it works</div>
+            <div class="case-items">
+              <div class="case-item">Built around your culture and philosophy</div>
+              <div class="case-item">Reduces admin without reducing humanity</div>
+              <div class="case-item">Scales with your headcount, not against it</div>
+              <div class="case-item">One integrated system, not five tools</div>
+            </div>
+          </div>
+          <div class="case-col outcomes">
+            <div class="case-col-label">Outcomes</div>
+            <div class="case-items">
+              <div>
+                <div class="case-num">70%</div>
+                <div class="case-num-label">faster hiring and screening</div>
+              </div>
+              <div>
+                <div class="case-num">50%</div>
+                <div class="case-num-label">less time on performance management</div>
+              </div>
+              <div>
+                <div class="case-num">↓</div>
+                <div class="case-num-label">lower HR and software costs</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="case-card-footer">
+          This is what happens when your philosophy is built into your systems.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOLD 7 — PRODUCT / PROCESS -->
+<section class="product" id="product">
+  <div class="container">
+    <div class="label reveal">The V10 upgrade</div>
+    <div class="product-header reveal">
+      <h2>A <em>30-day</em> shift.</h2>
+      <p>From messy workflows to systems that actually run your business.</p>
+    </div>
+    <div class="product-steps">
+      <div class="prod-step reveal">
+        <div class="prod-step-left">
+          <div class="prod-step-tag">Phase 01</div>
+          <div class="prod-step-title">Decode</div>
+        </div>
+        <div class="prod-step-right">
+          <p class="prod-step-body">We find where time and money are being lost — mapping your operations to surface the highest-leverage opportunities for transformation.</p>
+          <div class="prod-step-outcome">Clear view of the biggest opportunities</div>
+        </div>
+      </div>
+      <div class="prod-step reveal">
+        <div class="prod-step-left">
+          <div class="prod-step-tag">Phase 02</div>
+          <div class="prod-step-title">Build</div>
+        </div>
+        <div class="prod-step-right">
+          <p class="prod-step-body">We design and build the systems your business actually needs — not generic software adapted to fit, but custom intelligence built around how you want to operate.</p>
+          <div class="prod-step-outcome">Systems built around how you want to operate</div>
+        </div>
+      </div>
+      <div class="prod-step reveal">
+        <div class="prod-step-left">
+          <div class="prod-step-tag">Phase 03 — 30 days</div>
+          <div class="prod-step-title">Deploy</div>
+        </div>
+        <div class="prod-step-right">
+          <p class="prod-step-body">We put it live inside your business. Not a prototype. Not a pilot. A working system — yours to own and run from day one.</p>
+          <div class="prod-step-outcome">Immediate impact. Guaranteed.</div>
+        </div>
+      </div>
+    </div>
+    <div class="product-footer reveal">
+      <div class="product-footer-left">
+        <p>Deployment is just the start.<br><em>We don't build and walk.</em></p>
+      </div>
+      <div class="product-footer-right">
+        <p>We stay with you to make sure the systems work — and keep working as your business grows.</p>
+        <div class="product-footer-closing">That's how real systems are built.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLD 8 — DIFFERENTIATION -->
+<section class="differentiation" id="differentiation">
+  <div class="container">
+    <div class="diff-inner">
+      <div class="diff-left">
+        <div class="label reveal">Why V10</div>
+        <h2 class="reveal">Built by <em>operators,</em><br>not consultants.</h2>
+        <p class="reveal">We don't advise from the outside.</p>
+        <p class="reveal">We build and run systems inside real businesses — and bring that direct experience to yours.</p>
+      </div>
+      <div class="diff-right reveal">
+        <div class="diff-detail">We've operated the businesses we're now optimising</div>
+        <div class="diff-detail">We've felt the operational friction firsthand</div>
+        <div class="diff-detail">We build to the same standards we hold ourselves to</div>
+        <div class="diff-detail">No theory. No frameworks. Just systems that work.</div>
+        <div class="diff-detail">Proven in businesses like The Ice Bath Club</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLD 9 — FINAL CTA -->
+<section class="final-cta" id="final-cta">
+  <div class="final-cta-watermark">V10</div>
+  <div class="final-cta-glow"></div>
+  <div class="final-cta-content container">
+    <h2 class="reveal">Start your<br><em>V10 Upgrade.</em></h2>
+    <div class="reveal">
+      <a href="#" class="btn-apply">Apply for V10 →</a>
+      <span class="btn-subtext">Selective partnerships for growth-minded companies.</span>
+    </div>
+    <div class="reveal">
+      <span class="status">
+        <span class="status-dot"></span>
+        Currently onboarding new clients
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">V10</div>
+      <div class="footer-tag">The operating layer for modern business</div>
+      <div class="footer-copy">© 2025 V10. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  function switchTab(id) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === id);
+    });
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === 'tab-' + id);
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+
+  reveals.forEach(el => io.observe(el));
+
+  // Stagger siblings
+  document.querySelectorAll('.case-cols, .product-steps, .diff-right').forEach(parent => {
+    parent.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.1}s`;
+    });
+  });
+
+  // Problem bullets
+  const bullets = document.querySelectorAll('.bullet');
+  const bulletObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        bullets.forEach((b, i) => setTimeout(() => b.classList.add('visible'), i * 140));
+        bulletObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  if (bullets.length) bulletObserver.observe(bullets[0].closest('.problem-left'));
+</script>
+</body>
+</html>
