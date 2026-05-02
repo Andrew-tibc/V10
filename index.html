@@ -1013,6 +1013,132 @@
     color: var(--muted);
   }
 
+  /* ─── OPERATING SYSTEM EXPLANATION ─── */
+  .opsys {
+    padding: 140px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .opsys-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+
+  .opsys-headline {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 3.5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .opsys-lead {
+    font-size: 17px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  .opsys-body {
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .opsys-pillars {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+
+  .opsys-pillar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .opsys-pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .opsys-pillar-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--white);
+  }
+
+  .opsys-close {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent-soft);
+  }
+
+  /* ─── WHAT WE BUILD ─── */
+  .whatwebuild-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+
+  .wwb-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 44px 40px 52px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .wwb-item:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-glow);
+  }
+
+  .wwb-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .wwb-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .wwb-body {
+    font-size: 15px;
+    color: var(--body);
+    line-height: 1.75;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  .wwb-outcome {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent-soft);
+  }
+
   /* ─── ANIMATIONS ─── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(22px); }
@@ -1091,6 +1217,22 @@
       display: block;
       margin-top: 32px;
     }
+
+    .hero-top { flex-shrink: 0; }
+    .hero-bottom-content { display: flex; flex-direction: column; justify-content: flex-end; }
+
+    /* ── OPERATING SYSTEM ── */
+    .opsys { padding: 80px 0; }
+    .opsys-inner { grid-template-columns: 1fr; gap: 40px; }
+    .opsys-headline { font-size: 30px; }
+    .opsys-lead { font-size: 17px; }
+    .opsys-pillar-text { font-size: 18px; }
+
+    /* ── WHAT WE BUILD ── */
+    .whatwebuild-grid { grid-template-columns: 1fr; gap: 2px; margin-top: 40px; }
+    .wwb-item { padding: 36px 28px 44px; }
+    .wwb-title { font-size: 24px; }
+    .wwb-body { font-size: 15px; }
 
     /* ── TICKER ── */
     .ticker-item { font-size: 12px; padding: 0 36px; gap: 36px; }
@@ -1198,21 +1340,26 @@
   <div class="hero-glow"></div>
   <div class="container">
     <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <span class="eyebrow-line"></span>
-        An AI lab.
+      <div class="hero-top">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          An AI lab.
+        </div>
+        <h1 class="hero-headline">
+          We build operating systems for<br><em>ambitious companies.</em>
+        </h1>
       </div>
-      <h1 class="hero-headline">
-        Build with<br><em>V10.</em>
-      </h1>
-      <p class="hero-sub">
-        We replace 50% of your operational workload and software costs with AI systems, deployed in 30 days.
-      </p>
-      <p class="hero-credibility">
-        Built by operators. Proven in real businesses like The Ice Bath Club.
-      </p>
-      <div>
-        <a href="#final-cta" class="btn-apply">Apply for V10 →</a>
+      <div class="hero-bottom-content">
+        <p class="hero-sub">
+          We replace 50% of your operational workload and software costs with AI systems, deployed in 30 days.
+        </p>
+        <p class="hero-credibility">
+          We work alongside leadership teams to design and deploy systems that scale with the business.
+        </p>
+        <div>
+          <a href="#final-cta" class="btn-apply">Apply for V10 →</a>
+          <span class="btn-subtext">Selective partnerships for growth-minded companies.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1238,7 +1385,38 @@
   </div>
 </div>
 
-<!-- FOLD 2 — OPPORTUNITY -->
+<!-- FOLD 2 — OPERATING SYSTEM EXPLANATION -->
+<section class="opsys" id="opsys">
+  <div class="container">
+    <div class="label reveal">What we mean</div>
+    <div class="opsys-inner">
+      <div class="opsys-left">
+        <h2 class="opsys-headline reveal">What we mean by an operating system</h2>
+      </div>
+      <div class="opsys-right reveal">
+        <p class="opsys-lead">Most companies run on a mix of tools, people, and manual processes.</p>
+        <p class="opsys-body">We build a single system that connects how your business:</p>
+        <div class="opsys-pillars">
+          <div class="opsys-pillar">
+            <span class="opsys-pillar-num">01</span>
+            <span class="opsys-pillar-text">Makes decisions</span>
+          </div>
+          <div class="opsys-pillar">
+            <span class="opsys-pillar-num">02</span>
+            <span class="opsys-pillar-text">Executes work</span>
+          </div>
+          <div class="opsys-pillar">
+            <span class="opsys-pillar-num">03</span>
+            <span class="opsys-pillar-text">Manages people</span>
+          </div>
+        </div>
+        <p class="opsys-close">Clean. Structured. Built for scale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOLD 3 — OPPORTUNITY -->
 <section class="problem" id="problem">
   <div class="container">
     <div class="label reveal">The opportunity</div>
@@ -1265,44 +1443,32 @@
   </div>
 </section>
 
-<!-- FOLD 3 — CATEGORY SHIFT -->
+<!-- FOLD 4 — WHAT WE BUILD -->
 <section class="shift" id="shift">
   <div class="container">
-    <div class="label reveal">The shift</div>
+    <div class="label reveal">What we build</div>
     <div class="shift-header">
-      <h2 class="reveal">From <em>tools</em> to systems.</h2>
+      <h2 class="reveal">Three systems.<br><em>One operating layer.</em></h2>
     </div>
-    <div class="shift-contrast reveal">
-      <div class="shift-col tools">
-        <div class="shift-col-label">How most companies operate</div>
-        <div class="shift-items">
-          <div class="shift-item">More software for every problem</div>
-          <div class="shift-item">People filling the gaps between tools</div>
-          <div class="shift-item">Manual processes held together by habit</div>
-          <div class="shift-item">Decisions that wait on the right person</div>
-          <div class="shift-item">Scaling by adding headcount</div>
-        </div>
+    <div class="whatwebuild-grid reveal">
+      <div class="wwb-item">
+        <div class="wwb-num">01</div>
+        <div class="wwb-title">Decision Systems</div>
+        <p class="wwb-body">Real-time reporting and insights that replace manual reporting.</p>
+        <div class="wwb-outcome">→ Faster, clearer decisions</div>
       </div>
-      <div class="shift-divider">
-        <span class="shift-vs">vs</span>
+      <div class="wwb-item">
+        <div class="wwb-num">02</div>
+        <div class="wwb-title">Execution Systems</div>
+        <p class="wwb-body">Workflows and operations that run without manual coordination.</p>
+        <div class="wwb-outcome">→ Less admin, faster execution</div>
       </div>
-      <div class="shift-col systems">
-        <div class="shift-col-label">How V10 companies operate</div>
-        <div class="shift-items">
-          <div class="shift-item">Custom systems built for your operations</div>
-          <div class="shift-item">Automated workflows, end to end</div>
-          <div class="shift-item">Intelligence that runs in the background</div>
-          <div class="shift-item">Real-time data, instant decisions</div>
-          <div class="shift-item">Scaling without proportional cost</div>
-        </div>
+      <div class="wwb-item">
+        <div class="wwb-num">03</div>
+        <div class="wwb-title">People Systems</div>
+        <p class="wwb-body">Hiring, performance, and progression systems built around your philosophy.</p>
+        <div class="wwb-outcome">→ Stronger teams, better retention</div>
       </div>
-    </div>
-    <div class="shift-conclusion reveal">
-      <p>
-        Most companies add more software and people to grow.
-        The best companies build <em>systems that do the work.</em>
-        That's the V10 difference.
-      </p>
     </div>
   </div>
 </section>
@@ -1312,7 +1478,7 @@
   <div class="signature-glow"></div>
   <div class="container">
     <blockquote class="reveal">
-      You redesign what<br>should exist —<br><em>then build it.</em>
+      We redesign what<br>should exist —<br><em>together, then build it.</em>
     </blockquote>
   </div>
 </section>
