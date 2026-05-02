@@ -78,10 +78,10 @@
   }
 
   .logo {
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px;
-    color: var(--white);
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    line-height: 1;
   }
 
   .logo em { color: var(--accent-soft); font-style: italic; }
@@ -197,30 +197,28 @@
   .hero-headline em { font-style: italic; color: var(--accent-soft); }
 
   .hero-sub {
-    font-size: 19px;
+    font-size: clamp(17px, 1.6vw, 22px);
     color: var(--white-dim);
-    line-height: 1.65;
-    max-width: 600px;
+    line-height: 1.6;
+    max-width: 720px;
     font-weight: 400;
     margin-bottom: 18px;
   }
 
+  .hero-sub strong { color: var(--white); font-weight: 600; }
+
   .hero-credibility {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(15px, 1.2vw, 17px);
+    letter-spacing: 0;
     color: var(--body);
     margin-bottom: 52px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
-  }
-
-  .hero-credibility::before {
-    content: '';
-    width: 20px; height: 1px;
-    background: var(--border-light);
-    flex-shrink: 0;
+    max-width: 640px;
+    line-height: 1.65;
+    font-weight: 300;
   }
 
   .btn-apply {
@@ -1199,14 +1197,16 @@
       line-height: 1.6;
       max-width: 100%;
       color: var(--white-dim);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       margin-top: 32px;
     }
 
     .hero-credibility {
-      font-size: 13px;
+      font-size: 15px;
       color: var(--body);
       margin-bottom: 0;
+      max-width: 100%;
+      letter-spacing: 0;
     }
 
     .btn-apply {
@@ -1325,7 +1325,12 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">V<em>10</em></a>
+    <a href="#" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" height="34" aria-label="V10">
+        <text x="50" y="140" font-size="120" font-family="serif" fill="#EAEAEA">V</text>
+        <text x="140" y="140" font-size="120" font-family="serif" fill="#AFC6FF">10</text>
+      </svg>
+    </a>
     <ul class="nav-links">
       <li><a href="#problem">The opportunity</a></li>
       <li><a href="#case-studies">Case studies</a></li>
@@ -1351,7 +1356,7 @@
       </div>
       <div class="hero-bottom-content">
         <p class="hero-sub">
-          We replace 50% of your operational workload and software costs with AI systems, deployed in 30 days.
+          We replace 50% of your operational workload and software costs with AI systems, <strong>deployed in 30 days.</strong>
         </p>
         <p class="hero-credibility">
           We work alongside leadership teams to design and deploy systems that scale with the business.
@@ -1701,7 +1706,12 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-logo">V10</div>
+      <div class="footer-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" height="28" aria-label="V10">
+          <text x="50" y="140" font-size="120" font-family="serif" fill="#c8c5be">V</text>
+          <text x="140" y="140" font-size="120" font-family="serif" fill="#AFC6FF">10</text>
+        </svg>
+      </div>
       <div class="footer-tag">The operating layer for modern business</div>
       <div class="footer-copy">© 2025 V10. All rights reserved.</div>
     </div>
